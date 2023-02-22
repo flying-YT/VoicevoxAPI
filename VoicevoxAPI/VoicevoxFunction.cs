@@ -11,7 +11,7 @@ namespace VoicevoxAPI
 
         public VoicevoxFunction(string _ipAdress, string _port)
         {
-            ipPort = _ipAdress + ":" + _port;
+            ipPort = "http://" + _ipAdress + ":" + _port;
         }
 
         private async Task<string> MakeQuery(string _text, int _speakerId)
@@ -34,7 +34,7 @@ namespace VoicevoxAPI
             return jsonQuery;
         }
 
-        public async Task MakeSound(string _path, string _title, string _text, bool _upspeak, int _speakerId)
+        public async Task MakeSound(string _title, string _text, bool _upspeak, int _speakerId)
         {
             using (var httpClient = new HttpClient())
             {
@@ -52,7 +52,7 @@ namespace VoicevoxAPI
                     if (response.StatusCode == HttpStatusCode.OK)
                     {
                         string fileName = _title + ".wav";
-                        using (var fileStream = File.Create(_path + @"\" + fileName))
+                        using (var fileStream = File.Create(fileName))
                         {
                             using (var httpStream = await response.Content.ReadAsStreamAsync())
                             {
